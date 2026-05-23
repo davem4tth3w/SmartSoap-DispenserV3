@@ -32,7 +32,7 @@ export default function DashboardScreen() {
             name: data.name ?? data.deviceName ?? doc.id,
             location: data.location ?? "",
             floor: typeof data.floor === "string" ? parseInt(data.floor, 10) : (data.floor ?? 0),
-            status: data.status || "ok",
+            status: data.status || "empty",
             soapLevel: data.soapLevel ?? 0,
             usageCount: data.usageCount ?? 0,
             lastRefill: data.lastRefill?.toDate?.()?.toISOString() ?? new Date().toISOString(),
@@ -204,27 +204,36 @@ export default function DashboardScreen() {
         </View>
 
         {/* Status Summary */}
+
         <View className="flex-row gap-3 mb-6">
-          <View className="flex-1 bg-success bg-opacity-20 rounded-lg p-3 border border-success border-opacity-30">
+          <View style={styles.okCard} className="flex-1 rounded-lg p-3 border">
             <Text className="text-xs text-muted font-semibold">OK</Text>
-            <Text className="text-2xl font-bold text-success">
+            <Text className="text-2xl font-bold text-white">
               {dispensers.filter((d) => d.status === "ok").length}
             </Text>
           </View>
-          <View className="flex-1 bg-warning bg-opacity-20 rounded-lg p-3 border border-warning border-opacity-30">
+
+          <View style={styles.lowCard} className="flex-1 rounded-lg p-3 border">
             <Text className="text-xs text-muted font-semibold">LOW</Text>
-            <Text className="text-2xl font-bold text-warning">
+            <Text className="text-2xl font-bold text-white">
               {dispensers.filter((d) => d.status === "low").length}
             </Text>
           </View>
-          <View className="flex-1 bg-error bg-opacity-20 rounded-lg p-3 border border-error border-opacity-30">
+
+          <View style={styles.criticalCard} className="flex-1 rounded-lg p-3 border">
             <Text className="text-xs text-muted font-semibold">CRITICAL</Text>
-            <Text className="text-2xl font-bold text-error">
+            <Text className="text-2xl font-bold text-white">
               {dispensers.filter((d) => d.status === "critical").length}
             </Text>
           </View>
-        </View>
 
+          <View style={styles.emptyCard} className="flex-1 rounded-lg p-3 border">
+            <Text className="text-xs text-muted font-semibold">EMPTY</Text>
+            <Text className="text-2xl font-bold text-white">
+              {dispensers.filter((d) => d.status === "empty").length}
+            </Text>
+          </View>
+        </View>
         {/* Dispensers List */}
         <View className="mb-4">
           <Text className="text-sm font-semibold text-foreground mb-3">
@@ -429,7 +438,7 @@ export interface Dispenser {
   location: string;
   floor: number;
   soapLevel: number;
-  status: "ok" | "low" | "critical" | "offline";
+  status: "ok" | "low" | "critical" | "empty";
   lastRefill: string;
   usageCount: number;
   assignedTo: string[];
@@ -440,7 +449,7 @@ function getStatusColor(status: Dispenser["status"]): string {
     case "ok":       return "#10B981";
     case "low":      return "#F59E0B";
     case "critical": return "#DC2626";
-    case "offline":  return "#9CA3AF";
+    case "empty":    return "#9CA3AF";
     default:         return "#6B7280";
   }
 }
@@ -450,13 +459,33 @@ function getStatusLabel(status: Dispenser["status"]): string {
     case "ok":       return "OK";
     case "low":      return "Low";
     case "critical": return "Critical";
-    case "offline":  return "Offline";
+    case "empty":    return "Empty";
     default:         return "Unknown";
   }
 }
 // ─────────────────────────────────────────────────────────────────────────
 
 const styles = StyleSheet.create({
+
+  okCard: {
+    backgroundColor: "rgba(16, 185, 129, 0.72)",
+    borderColor: "rgba(16, 185, 129, 0.35)",
+  },
+
+  lowCard: {
+    backgroundColor: "rgba(245, 159, 11, 0.6)",
+    borderColor: "rgba(245, 158, 11, 0.35)",
+  },
+
+  criticalCard: {
+    backgroundColor: "rgba(220, 38, 38, 0.61)",
+    borderColor: "rgba(220, 38, 38, 0.35)",
+  },
+
+  emptyCard: {
+    backgroundColor: "rgba(156, 163, 175, 0.54)",
+    borderColor: "rgba(156, 163, 175, 0.35)",
+  },
 
   fab: {
     position: "absolute",

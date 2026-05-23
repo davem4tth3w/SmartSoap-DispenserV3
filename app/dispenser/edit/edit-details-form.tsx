@@ -313,5 +313,5 @@ const styles = StyleSheet.create({
     marginTop: 12,
     fontSize: 16,
     fontWeight: "600",
-  },
+  }
 });

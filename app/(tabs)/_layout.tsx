@@ -28,9 +28,12 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: colors.primary,
+        tabBarActiveTintColor: "#77bdfe", // Active icon/text color
+        tabBarInactiveTintColor: "#9CA3AF", // Inactive icon/text color
+
         headerShown: false,
         tabBarButton: HapticTab,
+
         tabBarStyle: {
           paddingTop: 8,
           paddingBottom: bottomPadding,
@@ -46,13 +49,6 @@ export default function TabLayout() {
         options={{
           title: "Dashboard",
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="square.grid.2x2.fill" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="map"
-        options={{
-          title: "Map",
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="map.fill" color={color} />,
         }}
       />
       <Tabs.Screen
