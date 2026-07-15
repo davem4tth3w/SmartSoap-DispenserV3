@@ -150,34 +150,45 @@ export default function ManageUsersScreen() {
 
               <View className="flex-row gap-2">
                 <Pressable
+                  className="w-10 h-10 rounded-full items-center justify-center"
                   onPress={() =>
-                    Alert.alert("Edit", `Edit user: ${u.fullName}`)
+                    Alert.alert(
+                      u.fullName,
+                      "Select an action",
+                      [
+                        {
+                          text: "Edit",
+                          onPress: () =>
+                            Alert.alert("Edit", `Edit user: ${u.fullName}`),
+                        },
+                        {
+                          text: "Disable",
+                          style: "destructive",
+                          onPress: () =>
+                            router.push({
+                              pathname: "/users/disable/disable_user_form",
+                              params: {
+                                userId: u.id,
+                                fullName: u.fullName,
+                                email: u.email,
+                                role: u.role,
+                                employeeId: u.employeeId ?? "",
+                              },
+                            }),
+                        },
+                        {
+                          text: "Cancel",
+                          style: "cancel",
+                        },
+                      ]
+                    )
                   }
-                  className="bg-primary bg-opacity-30 rounded-lg px-2 py-1 border border-primary border-opacity-50"
                 >
-                  <Text className="text-xs font-bold text-white">
-                    Edit
-                  </Text>
-                </Pressable>
-
-                <Pressable
-                  onPress={() =>
-                    router.push({
-                      pathname: "/users/delete/delete_user_form",
-                      params: {
-                        userId: u.id,
-                        fullName: u.fullName,
-                        email: u.email,
-                        role: u.role,
-                        employeeId: u.employeeId ?? "",
-                      },
-                    })
-                  }
-                  className="bg-error bg-opacity-30 rounded-lg px-2 py-1 border border-error border-opacity-50"
-                >
-                  <Text className="text-xs font-bold text-white">
-                    Delete
-                  </Text>
+                  <Ionicons
+                    name="ellipsis-vertical"
+                    size={22}
+                    color="#FFFFFF"
+                  />
                 </Pressable>
               </View>
             </View>

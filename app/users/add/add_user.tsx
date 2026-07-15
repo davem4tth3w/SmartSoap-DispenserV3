@@ -64,7 +64,11 @@ export default function AddUserScreen() {
         fullName: newUserData.fullName,
         email: newUserData.email,
         role: newUserData.role,
-        employeeId: newUserData.employeeId || null,
+        employeeId:
+          newUserData.role === "maintenance"
+            ? newUserData.employeeId || null
+            : null,
+        status: "pending",
       });
 
       await auth.updateCurrentUser(currentAdmin);
